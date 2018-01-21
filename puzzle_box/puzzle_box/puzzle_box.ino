@@ -15,6 +15,7 @@ Constants
 ------------------------------------------*/
 #define CARD "00006A263D71"
 #define DEBUG_BUILD true
+#define THERMISTOR 0
 
 /*------------------------------------------
 Types
@@ -38,6 +39,7 @@ Global Variables
 ------------------------------------------*/
 puzzle_state status;
 String msg;
+int ambient_temp;
 
 /*------------------------------------------
 System Initilizations 
@@ -48,6 +50,8 @@ void setup()
 	GPIO_init();
 	RFID_init();
 	LCD_init();
+	ambient_temp_init();
+	while (1);
 }
 
 /*------------------------------------------
@@ -55,10 +59,15 @@ Processing Loop
 ------------------------------------------*/
 void loop() 
 {
-	if (RFID_process())
+	//if (RFID_process())
+	//{
+		// do something
+	//}
+	if (temp_process())
 	{
 		digitalWrite(13, HIGH);
 	}
+
 }
 
 /*------------------------------------------
@@ -87,6 +96,24 @@ void data_init()
 	status = STEP1;
 }
 
+void ambient_temp_init()
+{
+	// Local Variables
+	unsigned long temp = 0;
+	int x;
+
+	for (x = 0; x < 100; x++)
+	{
+		temp += analogRead(THERMISTOR);
+	}
+	ambient_temp = temp / 100;
+	if (DEBUG_BUILD)
+	{
+		Serial.print("ambient temperature: ");
+		Serial.println(ambient_temp);
+	}
+}
+
 /*------------------------------------------
 Proccessing Functions 
 ------------------------------------------*/
@@ -94,6 +121,27 @@ boolean RFID_process()
 {
 	RFID_get();
 	return RFID_data_check( );
+}
+
+boolean temp_process()
+{
+	// Local Variables 
+	int temp;
+
+	// Temperature Processing 
+	temp = analogRead(THERMISTOR);
+	if (DEBUG_BUILD)
+	{
+		Serial.println("temperature: " + temp);
+	}
+	if (temp > ambient_temp + 20)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /*------------------------------------------
@@ -147,3 +195,4 @@ boolean RFID_data_check()
 	}
 	return ret_val;
 }
+
