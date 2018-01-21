@@ -5,16 +5,24 @@
 */
 /*------------------------------------------
 includes 
------------------------------------------=*/
-#include <C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src\SoftwareSerial.h>
-#include <C:\Users\mc\OneDrive\projects\puzzle_box\puzzle_box\LCD\serialGLCDlib.h>
+------------------------------------------*/
+#include <SoftwareSerial.h>
+#include <SerialGraphicLCD.h>
 
-SoftwareSerial LCD = SoftwareSerial(2, 3);
+/*------------------------------------------
+Object Declarations
+------------------------------------------*/
+//SoftwareSerial LCD_serial = SoftwareSerial(2, 3);
+
+LCD myLCD;
 
 // the setup function runs once when you press reset or power the board
 void setup() 
 {
+	delay(1200);
 	pinMode(13, OUTPUT);
+	myLCD.setHome();
+	myLCD.printStr("here");
 
 }
 
@@ -24,5 +32,5 @@ void loop()
 	digitalWrite(13, HIGH);
 	delay(500);
 	digitalWrite(13, LOW);
-	delay(500);
+	delay(500); 
 }
