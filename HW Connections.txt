@@ -1,0 +1,23 @@
+Arduino 
+P0
+P1
+P2
+P3		TX to Graphic LCD
+P4
+P5		RX from RFID
+P6
+P7
+P8
+P9
+P10
+P11
+P12
+P13
+
+
+A0		Temperature Sensor 
+A1
+A2
+A3
+A4
+A5
