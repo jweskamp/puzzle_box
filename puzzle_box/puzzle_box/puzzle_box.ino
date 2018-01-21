@@ -13,7 +13,19 @@ Includes
 /*------------------------------------------
 Constants
 ------------------------------------------*/
-#define card "00006A263D71"
+#define CARD "00006A263D71"
+#define DEBUG_BUILD true
+
+/*------------------------------------------
+Types
+------------------------------------------*/
+enum puzzle_state
+{
+	STEP1,
+	STEP2,
+	STEP3,
+	SOLVED
+};
 
 /*------------------------------------------
 Object Declarations
@@ -24,48 +36,114 @@ LCD myLCD;
 /*------------------------------------------
 Global Variables
 ------------------------------------------*/
-char c;
+puzzle_state status;
 String msg;
 
-// the setup function runs once when you press reset or power the board
+/*------------------------------------------
+System Initilizations 
+------------------------------------------*/
 void setup() 
 {
-	delay(1200);
-	pinMode(13, OUTPUT);
-	digitalWrite(13, LOW);
-
-	myLCD.setHome();
-	myLCD.printStr("here");
-
-
-	Serial.begin(9600);
-	RFID.begin(9600);
-
+	data_init();
+	GPIO_init();
+	RFID_init();
+	LCD_init();
 }
 
-// the loop function runs over and over again until power down or reset
+/*------------------------------------------
+Processing Loop 
+------------------------------------------*/
 void loop() 
 {
+	if (RFID_process())
+	{
+		digitalWrite(13, HIGH);
+	}
+}
+
+/*------------------------------------------
+Init Functions 
+------------------------------------------*/
+void LCD_init()
+{
+	delay(1200);
+	myLCD.setHome();
+}
+
+void RFID_init()
+{
+	Serial.begin(9600);
+	RFID.begin(9600);
+}
+
+void GPIO_init()
+{
+	pinMode(13, OUTPUT);
+	digitalWrite(13, LOW);
+}
+
+void data_init()
+{
+	status = STEP1;
+}
+
+/*------------------------------------------
+Proccessing Functions 
+------------------------------------------*/
+boolean RFID_process()
+{
+	RFID_get();
+	return RFID_data_check( );
+}
+
+/*------------------------------------------
+Supporting Functions
+------------------------------------------*/
+void RFID_get()
+{
+	// Local Variables
+	char c;
+
+	// Read in RFID input
 	while (RFID.available() > 0 && msg.length() < 13)
 	{
 		c = RFID.read();
 		msg += c;
-		Serial.print(msg.length());
-		Serial.print("   ");
-		Serial.println(msg);
-	}
-	if (msg.length() == 13)
-	{
-		Serial.println("---FINAL CARD---");
-		Serial.println(msg);
-		if (msg.equals(card))
+		if (DEBUG_BUILD)
 		{
-			digitalWrite(13, HIGH);
-			Serial.println("here");
+			Serial.print(msg.length());
+			Serial.print("   ");
+			Serial.println(msg);
+		}
+	}
+}
+
+boolean RFID_data_check()
+{
+	// local Variables
+	boolean ret_val = false;
+
+	// Check if RFID data matches saved card
+	if (msg.length() == 13 )
+	{
+		if (DEBUG_BUILD)
+		{
+			Serial.println("---FINAL CARD---");
+			Serial.println(msg);
+		}
+		
+		if (msg.equals(CARD))
+		{
+			if (DEBUG_BUILD)
+			{
+				Serial.println("matching card");
+			}
+			ret_val = true;
 		}
 		RFID.end();
 		delay(2000);
 		RFID.begin(9600);
 		msg = "";
 	}
+	return ret_val;
 }
