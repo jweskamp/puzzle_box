@@ -51,7 +51,6 @@ void setup()
 	RFID_init();
 	LCD_init();
 	ambient_temp_init();
-	while (1);
 }
 
 /*------------------------------------------
@@ -59,10 +58,10 @@ Processing Loop
 ------------------------------------------*/
 void loop() 
 {
-	//if (RFID_process())
-	//{
+	if (RFID_process())
+	{
 		// do something
-	//}
+	}
 	if (temp_process())
 	{
 		digitalWrite(13, HIGH);
@@ -107,11 +106,7 @@ void ambient_temp_init()
 		temp += analogRead(THERMISTOR);
 	}
 	ambient_temp = temp / 100;
-	if (DEBUG_BUILD)
-	{
-		Serial.print("ambient temperature: ");
-		Serial.println(ambient_temp);
-	}
+	debug_print("Ambient Temperature:", ambient_temp);
 }
 
 /*------------------------------------------
@@ -130,10 +125,7 @@ boolean temp_process()
 
 	// Temperature Processing 
 	temp = analogRead(THERMISTOR);
-	if (DEBUG_BUILD)
-	{
-		Serial.println("temperature: " + temp);
-	}
+	debug_print("Temperature:", temp);
 	if (temp > ambient_temp + 20)
 	{
 		return true;
@@ -157,12 +149,7 @@ void RFID_get()
 	{
 		c = RFID.read();
 		msg += c;
-		if (DEBUG_BUILD)
-		{
-			Serial.print(msg.length());
-			Serial.print("   ");
-			Serial.println(msg);
-		}
+		debug_print("RFID message:", msg);
 	}
 }
 
@@ -174,18 +161,12 @@ boolean RFID_data_check()
 	// Check if RFID data matches saved card
 	if (msg.length() == 13 )
 	{
-		if (DEBUG_BUILD)
-		{
-			Serial.println("---FINAL CARD---");
-			Serial.println(msg);
-		}
+		debug_print("___FINAL_CARD___");
+		debug_print(msg);
 		
 		if (msg.equals(CARD))
 		{
-			if (DEBUG_BUILD)
-			{
-				Serial.println("matching card");
-			}
+			debug_print("matching card");
 			ret_val = true;
 		}
 		RFID.end();
@@ -196,3 +177,41 @@ boolean RFID_data_check()
 	return ret_val;
 }
 
+/*------------------------------------------
+Debugging Functions 
+------------------------------------------*/
+void debug_print(String s)
+{
+	if (DEBUG_BUILD && Serial)
+	{
+		Serial.println(s);
+	}
+}
+
+void debug_print(String s, int i)
+{
+	if (DEBUG_BUILD && Serial)
+	{
+		Serial.print(s);
+		Serial.print(" ");
+		Serial.println(i);
+	}
+}
+
+void debug_print(int i)
+{
+	if (DEBUG_BUILD && Serial)
+	{
+		Serial.println(i);
+	}
+}
+
+void debug_print(String s1, String s2)
+{
+	if (DEBUG_BUILD && Serial)
+	{
+		Serial.print(s1);
+		Serial.print(" ");
+		Serial.println(s2);
+	}
+}
