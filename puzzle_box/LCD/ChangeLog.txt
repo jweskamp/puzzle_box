@@ -1,0 +1,3 @@
+1.03 to 1.04 (released 15.05.11):
+- Made this changelog
+- Changed the drawData function, it now calculates the length of the array by using the width and height of the bitmap.
