@@ -1,0 +1,1 @@
+To reset to state one hold the reset button on boot 

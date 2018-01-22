@@ -12,6 +12,13 @@ Includes
 #include "lcd.h"
 #include "dbg_print.h"
 #include <SoftwareSerial.h>
+#include <EEPROM.h>
+
+/*------------------------------------------
+Constants
+------------------------------------------*/
+#define NVM_STATUS_ADDR 0
+#define RESET_BUTTON	12
 
 /*------------------------------------------
 Types
@@ -55,12 +62,14 @@ void loop()
 		if (RFID_process())
 		{
 			status = STEP3;
+			EEPROM.write(NVM_STATUS_ADDR, status);
 		}
 		break;
 	case STEP3:		// Temperature
 		if (temp_process())
 		{
 			status = SOLVED;
+			EEPROM.write(NVM_STATUS_ADDR, status);
 		}
 		break;
 	case SOLVED:	// Solution Reached
@@ -78,9 +87,16 @@ void GPIO_init()
 {
 	pinMode(13, OUTPUT);
 	digitalWrite(13, LOW);
+	pinMode(12, INPUT);
+	delay(100);
+	if (digitalRead(RESET_BUTTON) == HIGH)
+	{
+		status = STEP1;
+		EEPROM.write(NVM_STATUS_ADDR, status);
+	}
 }
 
 void data_init()
 {
-	status = STEP1;
+	status = (puzzle_state) EEPROM.read(NVM_STATUS_ADDR);
 }
