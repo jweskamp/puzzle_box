@@ -7,15 +7,11 @@
 /*------------------------------------------
 Includes 
 ------------------------------------------*/
+#include "temperature.h"
+#include "rfid.h"
+#include "lcd.h"
+#include "dbg_print.h"
 #include <SoftwareSerial.h>
-#include <SerialGraphicLCD.h>
-
-/*------------------------------------------
-Constants
-------------------------------------------*/
-#define CARD "00006A263D71"
-#define DEBUG_BUILD true
-#define THERMISTOR 0
 
 /*------------------------------------------
 Types
@@ -29,17 +25,9 @@ enum puzzle_state
 };
 
 /*------------------------------------------
-Object Declarations
-------------------------------------------*/
-SoftwareSerial RFID = SoftwareSerial(5, 6);
-LCD myLCD;
-
-/*------------------------------------------
 Global Variables
 ------------------------------------------*/
 puzzle_state status;
-String msg;
-int ambient_temp;
 
 /*------------------------------------------
 System Initilizations 
@@ -58,32 +46,34 @@ Processing Loop
 ------------------------------------------*/
 void loop() 
 {
-	if (RFID_process())
+	switch (status)
 	{
-		// do something
-	}
-	if (temp_process())
-	{
-		digitalWrite(13, HIGH);
-	}
+	case STEP1:		// 
 
+		break;
+	case STEP2:		// Cipher/RFID
+		if (RFID_process())
+		{
+			status = STEP3;
+		}
+		break;
+	case STEP3:		// Temperature
+		if (temp_process())
+		{
+			status = SOLVED;
+		}
+		break;
+	case SOLVED:	// Solution Reached
+
+		break;
+	default:		// ERROR
+
+	}
 }
 
 /*------------------------------------------
 Init Functions 
 ------------------------------------------*/
-void LCD_init()
-{
-	delay(1200);
-	myLCD.setHome();
-}
-
-void RFID_init()
-{
-	Serial.begin(9600);
-	RFID.begin(9600);
-}
-
 void GPIO_init()
 {
 	pinMode(13, OUTPUT);
@@ -93,125 +83,4 @@ void GPIO_init()
 void data_init()
 {
 	status = STEP1;
-}
-
-void ambient_temp_init()
-{
-	// Local Variables
-	unsigned long temp = 0;
-	int x;
-
-	for (x = 0; x < 100; x++)
-	{
-		temp += analogRead(THERMISTOR);
-	}
-	ambient_temp = temp / 100;
-	debug_print("Ambient Temperature:", ambient_temp);
-}
-
-/*------------------------------------------
-Proccessing Functions 
-------------------------------------------*/
-boolean RFID_process()
-{
-	RFID_get();
-	return RFID_data_check( );
-}
-
-boolean temp_process()
-{
-	// Local Variables 
-	int temp;
-
-	// Temperature Processing 
-	temp = analogRead(THERMISTOR);
-	debug_print("Temperature:", temp);
-	if (temp > ambient_temp + 20)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/*------------------------------------------
-Supporting Functions
-------------------------------------------*/
-void RFID_get()
-{
-	// Local Variables
-	char c;
-
-	// Read in RFID input
-	while (RFID.available() > 0 && msg.length() < 13)
-	{
-		c = RFID.read();
-		msg += c;
-		debug_print("RFID message:", msg);
-	}
-}
-
-boolean RFID_data_check()
-{
-	// local Variables
-	boolean ret_val = false;
-
-	// Check if RFID data matches saved card
-	if (msg.length() == 13 )
-	{
-		debug_print("___FINAL_CARD___");
-		debug_print(msg);
-		
-		if (msg.equals(CARD))
-		{
-			debug_print("matching card");
-			ret_val = true;
-		}
-		RFID.end();
-		delay(2000);
-		RFID.begin(9600);
-		msg = "";
-	}
-	return ret_val;
-}
-
-/*------------------------------------------
-Debugging Functions 
-------------------------------------------*/
-void debug_print(String s)
-{
-	if (DEBUG_BUILD && Serial)
-	{
-		Serial.println(s);
-	}
-}
-
-void debug_print(String s, int i)
-{
-	if (DEBUG_BUILD && Serial)
-	{
-		Serial.print(s);
-		Serial.print(" ");
-		Serial.println(i);
-	}
-}
-
-void debug_print(int i)
-{
-	if (DEBUG_BUILD && Serial)
-	{
-		Serial.println(i);
-	}
-}
-
-void debug_print(String s1, String s2)
-{
-	if (DEBUG_BUILD && Serial)
-	{
-		Serial.print(s1);
-		Serial.print(" ");
-		Serial.println(s2);
-	}
 }
