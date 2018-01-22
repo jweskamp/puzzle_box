@@ -77,6 +77,7 @@ void loop()
 		break;
 	default:		// ERROR
 
+		break;
 	}
 }
 
@@ -99,4 +100,6 @@ void GPIO_init()
 void data_init()
 {
 	status = (puzzle_state) EEPROM.read(NVM_STATUS_ADDR);
+	Serial.print("State: ");
+	Serial.println(status);
 }

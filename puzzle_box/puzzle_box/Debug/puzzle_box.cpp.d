@@ -17,4 +17,5 @@ C:\Users\mc\AppData\Local\Temp\VMBuilds\puzzle_box\uno\Debug\puzzle_box.cpp.o: \
  C:\Users\mc\AppData\Local\Temp\VMBuilds\puzzle_box\uno\Debug\dbg_print.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src/SoftwareSerial.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Stream.h \
+ C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\libraries\EEPROM\src/EEPROM.h \
  C:\Program\ Files\ (x86)\Microsoft\ Visual\ Studio\ 14.0\Common7\IDE\Extensions\bzpxsvnz.bmz\Micro\ Platforms\default\debuggers\VM_DBG/VM_DBG.h
