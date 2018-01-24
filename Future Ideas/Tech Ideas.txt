@@ -1,0 +1,9 @@
+Ideas for different pieces of tech that can be implemented in future boxes
+
+Brethalizer
+Hold several pieazo sensors at the same time (maybe require two people)
+Photocell
+Thermister
+RFID
+Gyroscope
+7 segment LED

@@ -1,0 +1,4 @@
+Ideas for future puzzles that can be implemented in future boxes
+
+Morse code (light/sound)
+Written information only visable under black light (maybe change RBG LED)
