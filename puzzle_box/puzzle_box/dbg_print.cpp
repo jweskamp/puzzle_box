@@ -47,3 +47,15 @@ void debug_print(String s1, String s2)
 		Serial.println(s2);
 	}
 }
+
+void debug_print(String s, int i1, int i2)
+{
+	if (DEBUG_BUILD && Serial)
+	{
+		Serial.print(s);
+		Serial.print(" ");
+		Serial.print(i1);
+		Serial.print(": ");
+		Serial.println(i2);
+	}
+}

@@ -21,5 +21,31 @@
     <ClInclude Include="__vm\.puzzle_box.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dbg_print.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lcd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="temperature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dbg_print.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lcd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="temperature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

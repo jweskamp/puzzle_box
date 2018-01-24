@@ -7,6 +7,7 @@
 /*------------------------------------------
 Includes 
 ------------------------------------------*/
+#include "pressure.h"
 #include "temperature.h"
 #include "rfid.h"
 #include "lcd.h"
@@ -19,6 +20,7 @@ Constants
 ------------------------------------------*/
 #define NVM_STATUS_ADDR 0
 #define RESET_BUTTON	12
+#define STEP_TO_LCD		true
 
 /*------------------------------------------
 Types
@@ -35,6 +37,7 @@ enum puzzle_state
 Global Variables
 ------------------------------------------*/
 puzzle_state status;
+boolean step_init;
 
 /*------------------------------------------
 System Initilizations 
@@ -46,6 +49,8 @@ void setup()
 	RFID_init();
 	LCD_init();
 	ambient_temp_init();
+
+	boot_splash();
 }
 
 /*------------------------------------------
@@ -55,25 +60,50 @@ void loop()
 {
 	switch (status)
 	{
-	case STEP1:		// 
+	case STEP1:		// Piezo Sensor hold 
+		if (!step_init)
+		{
+			// Show something on LCD
+			start_step();
 
+		}
+		if (pressure_check())
+		{
+			end_step();
+		}
 		break;
-	case STEP2:		// Cipher/RFID
+	
+	case STEP2:		// Morse code key/Cipher/RFID
+		if (!step_init)
+		{
+			// Show something on LCD
+			start_step();
+		}
 		if (RFID_process())
 		{
-			status = STEP3;
-			EEPROM.write(NVM_STATUS_ADDR, status);
+			end_step();
 		}
 		break;
+	
 	case STEP3:		// Temperature
+		if (!step_init)
+		{
+			// Show something on LCD
+			start_step();
+		}
 		if (temp_process())
 		{
-			status = SOLVED;
-			EEPROM.write(NVM_STATUS_ADDR, status);
+			digitalWrite(LED_BUILTIN, HIGH);
+			end_step();
 		}
 		break;
+	
 	case SOLVED:	// Solution Reached
-
+		if (!step_init)
+		{
+			// Show something on LCD
+			start_step();
+		}
 		break;
 	default:		// ERROR
 
@@ -100,6 +130,29 @@ void GPIO_init()
 void data_init()
 {
 	status = (puzzle_state) EEPROM.read(NVM_STATUS_ADDR);
+	step_init = false;
 	Serial.print("State: ");
 	Serial.println(status);
+}
+
+/*------------------------------------------
+Helper Functions
+------------------------------------------*/
+void end_step()
+{
+	status = (puzzle_state) (status + 1);
+	EEPROM.write(NVM_STATUS_ADDR, status);
+	step_init = false;
+}
+
+void start_step()
+{
+	Serial.print("State: ");
+	Serial.println(status);
+	if (STEP_TO_LCD)
+	{
+		print_step_to_lcd(status);
+	}
+	step_init = true;
+	
 }

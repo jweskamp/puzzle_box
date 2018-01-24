@@ -9,6 +9,7 @@
 Constants
 ------------------------------------------*/
 #define THERMISTOR 0
+#define TEMP_OFFSET 20
 
 /*------------------------------------------
 Global Variables
@@ -43,7 +44,7 @@ boolean temp_process()
 	// Temperature Processing 
 	temp = analogRead(THERMISTOR);
 	debug_print("Temperature:", temp);
-	if (temp > ambient_temp + 20)
+	if (temp > ambient_temp + TEMP_OFFSET)
 	{
 		return true;
 	}

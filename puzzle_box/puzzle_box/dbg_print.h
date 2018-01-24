@@ -20,5 +20,7 @@ void debug_print(int i);
 
 void debug_print(String s1, String s2);
 
+void debug_print(String s, int i1, int i2);
+
 #endif
 
