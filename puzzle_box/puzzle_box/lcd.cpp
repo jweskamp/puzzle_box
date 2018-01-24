@@ -216,7 +216,9 @@ void boot_splash()
 	myLCD.drawLine(CENTER_X, CEN_BOX_Y, CENTER_X - 1,	CEN_BOX_Y - 5 + 0,	0);
 	delay(HAND_DELAY);
 	myLCD.eraseBlock(CENTER_X - 4, CEN_BOX_Y - 4, CENTER_X + 4, CEN_BOX_Y + 4);
-
+	
+	// if not looping it should stay on the top
+	myLCD.drawLine(CENTER_X, CEN_BOX_Y, CENTER_X, CEN_BOX_Y - 5, 0);																// top
 
 
 

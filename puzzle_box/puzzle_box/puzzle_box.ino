@@ -93,7 +93,6 @@ void loop()
 		}
 		if (temp_process())
 		{
-			digitalWrite(LED_BUILTIN, HIGH);
 			end_step();
 		}
 		break;
@@ -103,6 +102,11 @@ void loop()
 		{
 			// Show something on LCD
 			start_step();
+			
+			//Freeze on success and set up to start over on reboot
+			status = STEP1;
+			EEPROM.write(NVM_STATUS_ADDR, status);
+			while (1);
 		}
 		break;
 	default:		// ERROR
