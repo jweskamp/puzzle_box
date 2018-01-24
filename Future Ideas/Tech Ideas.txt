@@ -7,3 +7,15 @@ Thermister
 RFID
 Gyroscope
 7 segment LED
+Roatery dial from an old phone
+bluetooth 
+magnetic sensor 
+Microphone (require a lound/quiet, require a certain song/tone)
+NFC
+Connect wires to the correct places 
+Lasor reciever
+RF receiver
+distance sensor 
+moisture sensor (maybe a bad idea)
+USB keyboard
+micro SD card 

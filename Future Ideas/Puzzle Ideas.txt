@@ -2,3 +2,8 @@ Ideas for future puzzles that can be implemented in future boxes
 
 Morse code (light/sound)
 Written information only visable under black light (maybe change RBG LED)
+Use a map to solve a puzzle
+require a specific object to be inserted into a specific hole
+request coins to be added
+Math formula 
+Pattern recognition 
