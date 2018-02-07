@@ -33,6 +33,9 @@
     <ClInclude Include="temperature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="led.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dbg_print.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="temperature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="led.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

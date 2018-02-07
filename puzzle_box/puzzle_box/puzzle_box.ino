@@ -7,6 +7,7 @@
 /*------------------------------------------
 Includes 
 ------------------------------------------*/
+#include "led.h"
 #include "pressure.h"
 #include "temperature.h"
 #include "rfid.h"
@@ -44,13 +45,15 @@ System Initilizations
 ------------------------------------------*/
 void setup() 
 {
+	Serial.begin(9600);
 	data_init();
 	GPIO_init();
+	led_init();
 	RFID_init();
 	LCD_init();
 	ambient_temp_init();
-
 	boot_splash();
+	morse_init("chan");
 }
 
 /*------------------------------------------
@@ -79,6 +82,7 @@ void loop()
 			// Show something on LCD
 			start_step();
 		}
+		morse_blink();
 		if (RFID_process())
 		{
 			end_step();
@@ -120,8 +124,6 @@ Init Functions
 ------------------------------------------*/
 void GPIO_init()
 {
-	pinMode(13, OUTPUT);
-	digitalWrite(13, LOW);
 	pinMode(12, INPUT);
 	delay(100);
 	if (digitalRead(RESET_BUTTON) == HIGH)
