@@ -7,6 +7,7 @@
 /*------------------------------------------
 Includes 
 ------------------------------------------*/
+#include "servos.h"
 #include "led.h"
 #include "pressure.h"
 #include "temperature.h"
@@ -45,6 +46,8 @@ System Initilizations
 ------------------------------------------*/
 void setup() 
 {
+	servo_init();
+
 	Serial.begin(9600);
 	data_init();
 	GPIO_init();
@@ -54,6 +57,10 @@ void setup()
 	ambient_temp_init();
 	boot_splash();
 	morse_init("chan");
+
+
+	
+
 }
 
 /*------------------------------------------
@@ -85,6 +92,7 @@ void loop()
 		morse_blink();
 		if (RFID_process())
 		{
+			digitalWrite(13, LOW);
 			end_step();
 		}
 		break;
@@ -110,7 +118,11 @@ void loop()
 			//Freeze on success and set up to start over on reboot
 			status = STEP1;
 			EEPROM.write(NVM_STATUS_ADDR, status);
-			while (1);
+			servo_unlock();
+			while (1)
+			{
+				boot_splash();
+			}
 		}
 		break;
 	default:		// ERROR
