@@ -10,6 +10,7 @@
 Constants
 ------------------------------------------*/
 #define LED_PIN			13
+#define ALT_LED_PIN		11
 #define DOT_LENGTH		500
 #define DASH_LENGTH		1500
 #define PAUSE_LENGTH	1000
@@ -46,6 +47,8 @@ void led_init()
 {
 	pinMode(LED_PIN, OUTPUT);
 	digitalWrite(LED_PIN, LOW);
+	pinMode(ALT_LED_PIN, OUTPUT);
+	digitalWrite(ALT_LED_PIN, LOW);
 	//led_state = false;
 }
 
@@ -83,9 +86,11 @@ void morse_blink()
 	
 	if (restart_wait)
 	{
+		analogWrite(ALT_LED_PIN, 2);
 		if (time - last_time >= RESTART_LENGTH)
 		{
 			current_position = 0;
+			digitalWrite(ALT_LED_PIN, LOW);
 			digitalWrite(LED_PIN, HIGH);
 			led_state = true;
 			restart_wait = false;

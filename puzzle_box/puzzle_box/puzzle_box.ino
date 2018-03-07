@@ -7,11 +7,11 @@
 /*------------------------------------------
 Includes 
 ------------------------------------------*/
+#include "rfid2.h"
 #include "servos.h"
 #include "led.h"
 #include "pressure.h"
 #include "temperature.h"
-#include "rfid.h"
 #include "lcd.h"
 #include "dbg_print.h"
 #include <SoftwareSerial.h>
@@ -47,7 +47,6 @@ System Initilizations
 void setup() 
 {
 	servo_init();
-
 	Serial.begin(9600);
 	data_init();
 	GPIO_init();
@@ -90,7 +89,7 @@ void loop()
 			start_step();
 		}
 		morse_blink();
-		if (RFID_process())
+		if (RFID_binary_check())
 		{
 			digitalWrite(13, LOW);
 			end_step();
@@ -101,7 +100,11 @@ void loop()
 		if (!step_init)
 		{
 			// Show something on LCD
+			lcd_clear();
 			start_step();
+			thermometer_print();
+			snowflake_print(20, 15);
+			snowflake_print(100, 45);
 		}
 		if (temp_process())
 		{

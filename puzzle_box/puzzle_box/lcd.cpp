@@ -28,6 +28,7 @@ void LCD_init()
 {
 	delay(1200);
 	myLCD.setHome();
+	myLCD.clearScreen();
 }
 
 /*------------------------------------------
@@ -226,6 +227,48 @@ void boot_splash()
 	#undef SIZE_OF_BOX_Y
 	#undef CEN_CIRC_Y
 	#undef HAND_DELAY
+}
+
+void thermometer_print()
+{
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 6, 0);
+	myLCD.drawBox(CENTER_X - 3, MAX_Y - 20, CENTER_X + 3, MAX_Y - 50, 0);
+
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 5, 0);
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 4, 0);
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 3, 0);
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 2, 0);
+	myLCD.drawCircle(CENTER_X, MAX_Y - 15, 1, 0);
+	
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 21, CENTER_X + 3, MAX_Y - 21, 0);
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 22, CENTER_X + 3, MAX_Y - 22, 0);
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 23, CENTER_X + 3, MAX_Y - 23, 0);
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 24, CENTER_X + 3, MAX_Y - 24, 0);
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 25, CENTER_X + 3, MAX_Y - 25, 0);
+	myLCD.drawLine(CENTER_X - 3, MAX_Y - 26, CENTER_X + 3, MAX_Y - 26, 0);
+}
+
+void snowflake_print(int x, int y)
+{
+	myLCD.drawLine(x - 10, y, x + 10, y, 0);
+	myLCD.drawLine(x, y - 10, x, y + 10, 0);
+
+	myLCD.drawLine(x, y + 5, x + 5, y + 10, 0);
+	myLCD.drawLine(x, y + 5, x - 5, y + 10, 0);
+
+	myLCD.drawLine(x, y - 5, x + 5, y - 10, 0);
+	myLCD.drawLine(x, y - 5, x - 5, y - 10, 0);
+
+	myLCD.drawLine(x - 5, y, x - 10, y + 5, 0);
+	myLCD.drawLine(x - 5, y, x - 10, y - 5, 0);
+
+	myLCD.drawLine(x + 5, y, x + 10, y + 5, 0);
+	myLCD.drawLine(x + 5, y, x + 10, y - 5, 0);
+}
+
+void lcd_clear()
+{
+	myLCD.clearScreen();
 }
 
 void print_step_to_lcd(int step)
