@@ -86,7 +86,7 @@
     <ClInclude Include="lcd.h" />
     <ClInclude Include="led.h" />
     <ClInclude Include="pressure.h" />
-    <ClInclude Include="rfid.h" />
+    <ClInclude Include="rfid2.h" />
     <ClInclude Include="servos.h" />
     <ClInclude Include="temperature.h" />
     <ClInclude Include="__vm\.puzzle_box.vsarduino.h" />
@@ -96,7 +96,7 @@
     <ClCompile Include="lcd.cpp" />
     <ClCompile Include="led.cpp" />
     <ClCompile Include="pressure.cpp" />
-    <ClCompile Include="rfid.cpp" />
+    <ClCompile Include="rfid2.cpp" />
     <ClCompile Include="servos.cpp" />
     <ClCompile Include="temperature.cpp" />
   </ItemGroup>

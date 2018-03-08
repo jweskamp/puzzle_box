@@ -46,7 +46,7 @@ System Initilizations
 ------------------------------------------*/
 void setup() 
 {
-	servo_init();
+	//servo_init();
 	Serial.begin(9600);
 	data_init();
 	GPIO_init();
@@ -54,12 +54,8 @@ void setup()
 	RFID_init();
 	LCD_init();
 	ambient_temp_init();
-	boot_splash();
+	boot_splash(true);
 	morse_init("chan");
-
-
-	
-
 }
 
 /*------------------------------------------
@@ -74,8 +70,10 @@ void loop()
 		{
 			// Show something on LCD
 			start_step();
+			lcd_clear();
 
 		}
+		target_print();
 		if (pressure_check())
 		{
 			end_step();
@@ -122,9 +120,11 @@ void loop()
 			status = STEP1;
 			EEPROM.write(NVM_STATUS_ADDR, status);
 			servo_unlock();
+			lcd_clear();
+			boot_splash(true);
 			while (1)
 			{
-				boot_splash();
+				boot_splash(false);
 			}
 		}
 		break;

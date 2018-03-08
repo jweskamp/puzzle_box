@@ -13,9 +13,10 @@
 Function Prototypes
 ------------------------------------------*/
 void LCD_init();
-void boot_splash();
+void boot_splash(boolean text);
 void thermometer_print();
 void snowflake_print(int x, int y);
+void target_print();
 void lcd_clear();
 void print_step_to_lcd(int step);
 

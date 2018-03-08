@@ -22,6 +22,13 @@ Constants
 #define CENTER_Y (MAX_Y + 1) / 2
 
 /*------------------------------------------
+Global Variables
+------------------------------------------*/
+int circle_step;
+unsigned long circle_time;
+unsigned long circle_last_time;
+
+/*------------------------------------------
 Init Functions
 ------------------------------------------*/
 void LCD_init()
@@ -29,22 +36,25 @@ void LCD_init()
 	delay(1200);
 	myLCD.setHome();
 	myLCD.clearScreen();
+	circle_step = 0;
+	circle_last_time = millis();
 }
 
 /*------------------------------------------
 Proccessing Functions
 ------------------------------------------*/
-void boot_splash()
+void boot_splash(boolean text)
 {
 	#define SIZE_OF_BOX_X	60
 	#define SIZE_OF_BOX_Y	30
 	#define CEN_BOX_Y		MAX_Y - 2 - (SIZE_OF_BOX_Y / 2)
 	#define HAND_DELAY		100	
 
-	myLCD.clearScreen();
-    //myLCD.printStr("---------------------");
-	myLCD.printStr("     puzzle box!     ");
-	delay(100);
+	if (text)
+	{
+		myLCD.printStr("     puzzle box!     ");
+		delay(100);
+	}
 
 	myLCD.drawBox(CENTER_X - (SIZE_OF_BOX_X / 2), MAX_Y - 5 - SIZE_OF_BOX_Y, CENTER_X + (SIZE_OF_BOX_X / 2), MAX_Y - 5, 0);
 	
@@ -265,6 +275,56 @@ void snowflake_print(int x, int y)
 	myLCD.drawLine(x + 5, y, x + 10, y + 5, 0);
 	myLCD.drawLine(x + 5, y, x + 10, y - 5, 0);
 }
+
+void target_print()
+{
+	#define C1_X 30
+	#define C2_X 90
+	#define delay_time 750
+
+	circle_time = millis();
+	if (circle_time - circle_last_time < delay_time)
+	{
+		return;	
+	}
+	else
+	{
+		circle_step++;
+		circle_last_time = circle_time;
+	}
+	switch (circle_step)
+	{
+	case 0:
+		myLCD.drawCircle(C1_X, CENTER_Y, 20, 0);
+		myLCD.drawCircle(C2_X, CENTER_Y, 20, 0);
+		break;
+	case 1:
+		myLCD.drawCircle(C1_X, CENTER_Y, 15, 0);
+		myLCD.drawCircle(C2_X, CENTER_Y, 15, 0);
+		break;
+	case 2:
+		myLCD.drawCircle(C1_X, CENTER_Y, 10, 0);
+		myLCD.drawCircle(C2_X, CENTER_Y, 10, 0);
+		break;
+	case 3:
+		myLCD.drawCircle(C1_X, CENTER_Y, 5, 0);
+		myLCD.drawCircle(C2_X, CENTER_Y, 5, 0);
+		break;
+	case 4:
+		myLCD.drawCircle(C1_X, CENTER_Y, 1, 0);
+		myLCD.drawCircle(C2_X, CENTER_Y, 1, 0);
+		break;
+	case 5:
+		myLCD.clearScreen();
+		circle_step = 0;
+		break;
+		
+	}
+
+	#undef C1_X
+	#undef C2_X
+}
+
 
 void lcd_clear()
 {

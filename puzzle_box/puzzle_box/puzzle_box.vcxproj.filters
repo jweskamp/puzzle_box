@@ -27,9 +27,6 @@
     <ClInclude Include="lcd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="temperature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,15 +39,15 @@
     <ClInclude Include="servos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rfid2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dbg_print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lcd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rfid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="temperature.cpp">
@@ -63,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="servos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfid2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
